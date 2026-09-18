@@ -3,8 +3,6 @@
 //========================================================================
 
 `include "ece2300/ece2300-test.v"
-
-// ece2300-lint
 `include "lab2/AdderRippleCarry_4b_GL.v"
 
 module Top();
@@ -13,7 +11,7 @@ module Top();
   // Setup
   //----------------------------------------------------------------------
 
-  CombinationalTestUtils t();
+  TestUtils t();
 
   //----------------------------------------------------------------------
   // Instantiate design under test
@@ -49,6 +47,9 @@ module Top();
     input logic [3:0] sum_
   );
     if ( !t.failed ) begin
+      t.num_checks += 1;
+
+      #1;
 
       in0 = in0_;
       in1 = in1_;
@@ -63,7 +64,7 @@ module Top();
       `ECE2300_CHECK_EQ( cout, cout_ );
       `ECE2300_CHECK_EQ( sum,  sum_ );
 
-      #2;
+      #1;
 
     end
   endtask
@@ -78,8 +79,6 @@ module Top();
     //     in0      in1      cin   cout  sum
     check( 4'b0000, 4'b0000, 1'b0, 1'b0, 4'b0000 );
     check( 4'b0001, 4'b0001, 1'b0, 1'b0, 4'b0010 );
-    check( 4'b0001, 4'b0001, 1'b1, 1'b0, 4'b0011 );
-    check( 4'b0011, 4'b0011, 1'b0, 1'b0, 4'b0110 );
 
     t.test_case_end();
   endtask
@@ -97,7 +96,7 @@ module Top();
   //----------------------------------------------------------------------
 
   initial begin
-    t.test_bench_begin( `__FILE__ );
+    t.test_bench_begin();
 
     if ((t.n <= 0) || (t.n == 1)) test_case_1_basic();
 

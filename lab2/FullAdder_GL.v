@@ -23,8 +23,7 @@ module FullAdder_GL
   `ECE2300_UNUSED( in0 );
   `ECE2300_UNUSED( in1 );
   `ECE2300_UNUSED( cin );
-  `ECE2300_UNDRIVEN( cout );
-  `ECE2300_UNDRIVEN( sum );
+  `ECE2300_FLOATING( cout );
 
 endmodule
 

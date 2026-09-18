@@ -3,8 +3,6 @@
 //========================================================================
 
 `include "ece2300/ece2300-test.v"
-
-// ece2300-lint
 `include "lab2/FullAdder_GL.v"
 
 module Top();
@@ -13,7 +11,7 @@ module Top();
   // Setup
   //----------------------------------------------------------------------
 
-  CombinationalTestUtils t();
+  TestUtils t();
 
   //----------------------------------------------------------------------
   // Instantiate design under test
@@ -49,6 +47,9 @@ module Top();
     input logic sum_
   );
     if ( !t.failed ) begin
+      t.num_checks += 1;
+
+      #1;
 
       in0 = in0_;
       in1 = in1_;
@@ -62,7 +63,7 @@ module Top();
       `ECE2300_CHECK_EQ( cout, cout_ );
       `ECE2300_CHECK_EQ( sum,  sum_ );
 
-      #2;
+      #1;
 
     end
   endtask
@@ -74,11 +75,9 @@ module Top();
   task test_case_1_basic();
     t.test_case_begin( "test_case_1_basic" );
 
-    //     in0   in1   cin   cout  sum
-    check( 1'b0, 1'b0, 1'b0, 1'b0, 1'b0 );
-    check( 1'b1, 1'b0, 1'b0, 1'b0, 1'b1 );
-    check( 1'b0, 1'b1, 1'b0, 1'b0, 1'b1 );
-    check( 1'b1, 1'b1, 1'b0, 1'b1, 1'b0 );
+    //     in0 in1 cin co  sum
+    check( 0,  0,  0,  0,  0 );
+    check( 1,  1,  0,  1,  0 );
 
     t.test_case_end();
   endtask
@@ -115,7 +114,7 @@ module Top();
   //----------------------------------------------------------------------
 
   initial begin
-    t.test_bench_begin( `__FILE__ );
+    t.test_bench_begin();
 
     if ((t.n <= 0) || (t.n == 1)) test_case_1_basic();
     if ((t.n <= 0) || (t.n == 2)) test_case_2_exhaustive();
